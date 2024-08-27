@@ -58,7 +58,7 @@ class DeviceController extends Controller
 
     public function showDeviceInfo()
     {
-        $deviceInfos = DeviceInfo::all(); // Fetch all records from the database
+        $deviceInfos = DeviceInfo::latest()->get(); // Fetch all records from the database
         return view('device-info', compact('deviceInfos'));
     }
     public function saveLocation(Request $request)
