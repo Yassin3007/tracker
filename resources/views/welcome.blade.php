@@ -19,7 +19,7 @@
     <li>Latitude: {{ $deviceInfo['latitude'] }}</li>
     <li>Longitude: {{ $deviceInfo['longitude'] }}</li>
     <li>Google Maps URL: <a href="{{ $deviceInfo['google_maps_url'] }}" target="_blank">View on Map</a></li>
-    <li>Visit Count: {{ $deviceInfo->count }}</li>
+    <li>Visit Count: {{ $deviceInfo->count ?? "--" }}</li>
 </ul>
 </body>
 </html>
