@@ -38,6 +38,7 @@
         <th>Latitude</th>
         <th>Longitude</th>
         <th>Google Maps URL</th>
+        <th>Count</th>
         <th>Recorded At</th>
     </tr>
     </thead>
@@ -59,6 +60,7 @@
             <td>{{ $deviceInfo->latitude }}</td>
             <td>{{ $deviceInfo->longitude }}</td>
             <td><a href="{{ $deviceInfo->google_maps_url }}" target="_blank">View on Map</a></td>
+            <td>{{ $deviceInfo->count }}</td>
             <td>{{ $deviceInfo->created_at }}</td>
         </tr>
     @endforeach
