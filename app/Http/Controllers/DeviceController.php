@@ -11,8 +11,7 @@ class DeviceController extends Controller
 {
     public function index(Request $request)
     {
-        $allCookies = $request->cookies->all();
-        return $allCookies;
+
         $agent = new Agent();
         $ip = $request->ip();
         $deviceInfo = [
