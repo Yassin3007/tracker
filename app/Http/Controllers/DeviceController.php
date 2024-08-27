@@ -61,4 +61,18 @@ class DeviceController extends Controller
         $deviceInfos = DeviceInfo::all(); // Fetch all records from the database
         return view('device-info', compact('deviceInfos'));
     }
+    public function saveLocation(Request $request)
+    {
+        // Find the last device info record or use a better way to track specific records
+        $deviceInfo = DeviceInfo::latest()->first();
+
+        if ($deviceInfo) {
+            $deviceInfo->latitude = $request->input('latitude');
+            $deviceInfo->longitude = $request->input('longitude');
+            $deviceInfo->google_maps_url = $this->generateGoogleMapsUrl($deviceInfo->latitude, $deviceInfo->longitude);
+            $deviceInfo->save();
+        }
+
+        return response()->json(['status' => 'success']);
+    }
 }

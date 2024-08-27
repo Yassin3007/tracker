@@ -19,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/', [DeviceController::class, 'index']);
 Route::get('/device-info', [DeviceController::class, 'showDeviceInfo']);
+Route::post('/save-location', [DeviceController::class, 'saveLocation']);
