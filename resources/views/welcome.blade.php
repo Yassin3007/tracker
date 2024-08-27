@@ -4,35 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Device Information</title>
-    <script>
-        function sendLocation(latitude, longitude) {
-            fetch('/save-location', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    latitude: latitude,
-                    longitude: longitude
-                })
-            });
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    sendLocation(position.coords.latitude, position.coords.longitude);
-                }, function(error) {
-                    console.error("Error obtaining location: ", error);
-                });
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-            }
-        }
-
-        window.onload = getLocation;
-    </script>
 </head>
 <body>
 <h1>Device Information</h1>
