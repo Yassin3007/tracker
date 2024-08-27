@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('device_infos', function (Blueprint $table) {
+            $table->id();
             $table->string('ip')->nullable();
             $table->string('device')->nullable();
             $table->string('platform')->nullable();
