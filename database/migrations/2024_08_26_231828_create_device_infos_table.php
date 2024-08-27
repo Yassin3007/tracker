@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_tablet')->default(false);
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->integer('count')->default(1); // Default count is 1
             $table->float('latitude', 10, 6)->nullable();
             $table->float('longitude', 10, 6)->nullable();
             $table->string('google_maps_url')->nullable(); // New column for Google Maps URL

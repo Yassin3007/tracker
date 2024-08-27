@@ -14,37 +14,47 @@ class DeviceController extends Controller
 
         $agent = new Agent();
         $ip = $request->ip();
-        $deviceInfo = [
-            'ip' => $ip,
-            'device' => $agent->device(),
-            'platform' => $agent->platform(),
-            'platform_version' => $agent->version($agent->platform()),
-            'browser' => $agent->browser(),
-            'browser_version' => $agent->version($agent->browser()),
-            'is_desktop' => $agent->isDesktop(),
-            'is_mobile' => $agent->isMobile(),
-            'is_tablet' => $agent->isTablet(),
-        ];
+        $deviceInfo = DeviceInfo::where('ip', $ip)->first();
 
-        // Get location using GeoIP2
-        $reader = new Reader(database_path('GeoLite2-City.mmdb'));
-        $record = $reader->city($ip);
+        if ($deviceInfo) {
+            // Increment the visit count
+            $deviceInfo->count += 1;
+            $deviceInfo->save();
+        }
+        else{
+            $deviceInfo = [
+                'ip' => $ip,
+                'device' => $agent->device(),
+                'platform' => $agent->platform(),
+                'platform_version' => $agent->version($agent->platform()),
+                'browser' => $agent->browser(),
+                'browser_version' => $agent->version($agent->browser()),
+                'is_desktop' => $agent->isDesktop(),
+                'is_mobile' => $agent->isMobile(),
+                'is_tablet' => $agent->isTablet(),
+            ];
 
-        $location = [
-            'city' => $record->city->name,
-            'country' => $record->country->name,
-            'latitude' => $record->location->latitude,
-            'longitude' => $record->location->longitude,
-        ];
+            // Get location using GeoIP2
+            $reader = new Reader(database_path('GeoLite2-City.mmdb'));
+            $record = $reader->city($ip);
 
-        // Generate Google Maps URL
-        $googleMapsUrl = $this->generateGoogleMapsUrl($location['latitude'], $location['longitude']);
+            $location = [
+                'city' => $record->city->name,
+                'country' => $record->country->name,
+                'latitude' => $record->location->latitude,
+                'longitude' => $record->location->longitude,
+            ];
 
-        // Combine all data
-        $deviceInfo = array_merge($deviceInfo, $location, ['google_maps_url' => $googleMapsUrl]);
+            // Generate Google Maps URL
+            $googleMapsUrl = $this->generateGoogleMapsUrl($location['latitude'], $location['longitude']);
 
-        // Store the data in the database
-        DeviceInfo::create($deviceInfo);
+            // Combine all data
+            $deviceInfo = array_merge($deviceInfo, $location, ['google_maps_url' => $googleMapsUrl]);
+
+            // Store the data in the database
+            DeviceInfo::create($deviceInfo);
+        }
+
 
         return view('welcome', compact('deviceInfo'));
     }
